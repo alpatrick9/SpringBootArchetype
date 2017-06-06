@@ -22,6 +22,9 @@ public class UserController {
 	
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	BCryptPasswordEncoder passwordEncoder;
 
 	@RequestMapping("/users")
 	String index(Model model, 
@@ -56,7 +59,6 @@ public class UserController {
 	
 	@RequestMapping(value="/add_user", method=RequestMethod.POST)
 	ModelAndView addUser(@ModelAttribute("user") User user) {
-		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		user.setRole(Role.ROLE_USER.name());
 		userService.saveOrUpdate(user);
@@ -88,7 +90,6 @@ public class UserController {
 	@RequestMapping("/update_pass")
 	ModelAndView changePassword(@ModelAttribute("password") Password password) {
 		User user = userService.findOne(password.getUserId());
-		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		if(!passwordEncoder.matches(password.getOldPassword(), user.getPassword()))
 			return new ModelAndView("redirect:/admin/users?changepass=true&errorpass=true&id="+password.getUserId());
 		user.setPassword(passwordEncoder.encode(password.getNewPassword()));

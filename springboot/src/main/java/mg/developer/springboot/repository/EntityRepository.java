@@ -13,4 +13,6 @@ public interface EntityRepository<E, PK extends Serializable> {
 	
 	public E find(PK key);
 	
+	public Long count();
+	
 }

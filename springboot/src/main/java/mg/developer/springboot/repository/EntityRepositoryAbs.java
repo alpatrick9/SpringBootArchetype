@@ -38,5 +38,10 @@ public abstract class EntityRepositoryAbs<E, PK extends Serializable, J extends 
 	public E find(PK key) {
 		return jpaRepository.getOne(key);
 	}
+
+	@Override
+	public Long count() {
+		return jpaRepository.count();
+	}
 	
 }

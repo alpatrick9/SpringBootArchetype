@@ -5,7 +5,7 @@
 <#assign fontawesome><@spring.url relativeUrl="/css/font-awesome.min.css"/></#assign>
 
 <#assign home_url><@spring.url relativeUrl="/secure/"/></#assign>
-<#assign admin_url><@spring.url relativeUrl="/registration/users"/></#assign>
+<#assign admin_url><@spring.url relativeUrl="/admin/users"/></#assign>
 <#assign logout_url><@spring.url relativeUrl="/logout"/></#assign>
 <#assign login_url><@spring.url relativeUrl="/login"/></#assign>
 

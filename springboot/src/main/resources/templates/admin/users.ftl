@@ -1,6 +1,6 @@
 <#include "/header.ftl"/>
 <div class="clearboth"></div>
-<form method="post" action="<@spring.url relativeUrl="/registration/add_user"/>">
+<form method="post" action="<@spring.url relativeUrl="/admin/add_user"/>">
 	<div class="form-group">
 		<@spring.bind path="user"/>
 		<@spring.formInput "user.name" 'class="form-control" placeholder="Name" required'/>
@@ -44,7 +44,7 @@
 					<a href="" > 
 						<i class="fa fa-refresh"></i>
 					</a> &nbsp; 
-					<a href="<@spring.url relativeUrl="/registration/del_user?id=${user.id}"/>" onclick="return confirm('Are you sure to delete this?')">
+					<a href="<@spring.url relativeUrl="/admin/del_user?id=${user.id}"/>" onclick="return confirm('Are you sure to delete this?')">
 						<i class="fa fa-remove"></i>
 					</a>
 				</td>

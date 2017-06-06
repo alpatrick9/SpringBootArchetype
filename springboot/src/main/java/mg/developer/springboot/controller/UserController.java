@@ -19,12 +19,13 @@ import mg.developer.springboot.model.User;
 import mg.developer.springboot.service.UserService;
 
 @Controller
+@RequestMapping("/admin")
 public class UserController {
 	
 	@Autowired
 	UserService userService;
 
-	@RequestMapping("/registration/users")
+	@RequestMapping("/users")
 	String index(Model model) {
 		model.addAttribute("title", "User list");
 		
@@ -35,22 +36,22 @@ public class UserController {
 		return "/admin/users";
 	}
 	
-	@RequestMapping(value="/registration/add_user", method=RequestMethod.POST)
+	@RequestMapping(value="/add_user", method=RequestMethod.POST)
 	ModelAndView addUser(@ModelAttribute("user") User user) {
 		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		Role role = new Role();
-		role.setRole("ROLE_ADMIN");
+		role.setRole("ROLE_USER");
 		Set<Role> roles = new HashSet<>();
 		roles.add(role);
 		user.setRoles(roles);
 		userService.saveOrUpdate(user);
-		return new ModelAndView("redirect:/registration/users");
+		return new ModelAndView("redirect:/admin/users");
 	}
 	
-	@RequestMapping("/registration/del_user")
+	@RequestMapping("/del_user")
 	ModelAndView deleteUser(@RequestParam("id")Integer id) {
 		userService.delete(id);
-		return new ModelAndView("redirect:/registration/users");
+		return new ModelAndView("redirect:/admin/users");
 	}
 }

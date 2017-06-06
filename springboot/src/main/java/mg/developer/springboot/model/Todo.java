@@ -27,5 +27,10 @@ public class Todo {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public void bindFormData(final Todo todo) {
+		if(todo.name != null)
+			this.name = todo.name;
+	}
 
 }

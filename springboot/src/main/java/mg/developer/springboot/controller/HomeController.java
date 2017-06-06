@@ -36,7 +36,12 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value="/add_todo", method=RequestMethod.POST)
-	ModelAndView createTodo(@ModelAttribute("todo")Todo todo) {
+	ModelAndView createTodo(@ModelAttribute("todo") Todo todo) {
+		if(todo.getId() != null) {
+			Todo toUpdate = todoService.findOne(todo.getId());
+			toUpdate.bindFormData(todo);
+			todo = toUpdate;
+		}
 		todoService.saveOrUpdate(todo);
 		return new ModelAndView("redirect:/secure/");
 	}

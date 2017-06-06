@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import mg.developer.springboot.constant.Role;
 import mg.developer.springboot.listener.LoggedUserListener;
 
 
@@ -53,8 +54,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 			authorizeRequests()
 				.antMatchers("/").permitAll()
 				.antMatchers("/login").permitAll()
-				.antMatchers("/secure/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
-				.antMatchers("/admin/**").hasAuthority("ROLE_ADMIN").anyRequest()
+				.antMatchers("/secure/**").hasAnyAuthority(Role.ROLE_ADMIN.name(), Role.ROLE_USER.name())
+				.antMatchers("/admin/**").hasAuthority(Role.ROLE_ADMIN.name()).anyRequest()
 				.authenticated()
 				.and()
 				.formLogin()

@@ -1,7 +1,5 @@
 package mg.developer.springboot.model;
 
-import java.util.Set;
-
 import javax.persistence.*;
 
 import org.hibernate.validator.constraints.*;
@@ -30,11 +28,10 @@ public class User {
 	private String name;
 	
 	@Column(name = "active", columnDefinition = "tinyint default true", nullable = false)
-	private boolean active = true;
+	private Boolean active = true;
 	
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-	private Set<Role> roles;
+	@Column(name = "role", nullable = false)
+	private String role;
 
 	public int getId() {
 		return id;
@@ -76,11 +73,25 @@ public class User {
 		this.active = active;
 	}
 
-	public Set<Role> getRoles() {
-		return roles;
+	public String getRole() {
+		return role;
 	}
 
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
+	public void setRole(String role) {
+		this.role = role;
+	}
+	
+	public void bindFormData(final User user) {
+		if(user.email != null)
+			this.email = user.email;
+		if(user.password != null)
+			this.password = user.password;
+		if(user.name != null)
+			this.name = user.name;
+		if(user.active != null)
+			this.active = user.active;
+		if(user.role != null)
+			this.role = user.role;
+			
 	}
 }

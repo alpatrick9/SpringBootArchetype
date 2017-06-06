@@ -27,7 +27,7 @@
 	</form>
 </#if>
 <#if (changepass)>
-<h5>Modification mot de pass de ${password.email}</h5>
+<h5>Modification mot de pass de ${password.email?html }</h5>
 <#if (errorpass)>
 	<p style="color:red;">L'ancien mot de passe ne correspond pas</p>
 </#if>
@@ -57,9 +57,9 @@
 		<#list users as user>
 			<tr>
 				<td class="text-center">${ user.id }</td>
-				<td class="text-center">${ user.name }</td>
-				<td class="text-center">${ user.email }</td>
-				<td class="text-center">${ user.role} </td>
+				<td class="text-center">${ user.name?html }</td>
+				<td class="text-center">${ user.email?html }</td>
+				<td class="text-center">${ user.role?html } </td>
 				<td class="text-center">
 					<#if (user.active)>
 						Activé

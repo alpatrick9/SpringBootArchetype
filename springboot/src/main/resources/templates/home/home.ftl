@@ -22,7 +22,7 @@
 		<#list todos as todo>
 			<tr>
 				<td class="text-center">${ todo.id }</td>
-				<td class="text-center">${ todo.name }</td>
+				<td class="text-center">${ todo.name?html }</td>
 				<td class="text-center">
 					<a href="<@spring.url relativeUrl="/secure/?id=${todo.id}"/>" > 
 						<i class="fa fa-refresh"></i>

@@ -1,5 +1,8 @@
 <#include "/header.ftl"/>
 <div class="clearboth"></div>
+<#if (dataIntegrityError ??)>
+	<p style="color:red;">${dataIntegrityError}</p>
+</#if>
 <#if (!update)>
 	<form method="post" action="<@spring.url relativeUrl="/admin/add_user"/>">
 		<div class="form-group">

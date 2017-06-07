@@ -1,5 +1,7 @@
 package mg.developer.springboot.controller;
 
+import javax.validation.ConstraintViolationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -64,6 +66,8 @@ public class UserController {
 			userService.saveOrUpdate(user);
 		} catch (DataIntegrityViolationException e) {
 			 redirectAttributes.addFlashAttribute("dataIntegrityError", "Erreur d'enregistrement: email "+user.getEmail()+" déjà existant!");
+		} catch (ConstraintViolationException e) {
+			redirectAttributes.addFlashAttribute("dataIntegrityError", "Address email ou password non valide: password au moins 5 caractères");
 		}
 		return new ModelAndView("redirect:/admin/users");
 	}
@@ -90,6 +94,8 @@ public class UserController {
 			userService.saveOrUpdate(toUpdate);
 		} catch (DataIntegrityViolationException e) {
 			 redirectAttributes.addFlashAttribute("dataIntegrityError", "Erreur d'enregistrement: email "+user.getEmail()+" déjà existant!");
+		} catch (ConstraintViolationException e) {
+			redirectAttributes.addFlashAttribute("dataIntegrityError", "Address email ou password non valide: password au moins 5 caractères");
 		}
 		return new ModelAndView("redirect:/admin/users");
 	}

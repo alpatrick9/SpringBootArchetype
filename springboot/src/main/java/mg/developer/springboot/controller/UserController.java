@@ -31,7 +31,6 @@ public class UserController {
 	String index(Model model, 
 			@RequestParam(value = "update", required = false, defaultValue = "false") Boolean update,
 			@RequestParam(value = "changepass", required = false, defaultValue = "false") Boolean changePass,
-			@RequestParam(value = "errorpass", required = false, defaultValue = "false") Boolean errorpass,
 			@RequestParam(value = "id", required = false) Integer id) {
 		model.addAttribute("title", "User list");
 		
@@ -49,7 +48,6 @@ public class UserController {
 				user = new User();
 			}
 		}
-		model.addAttribute("errorpass", errorpass);
 		model.addAttribute("changepass", changePass);
 		model.addAttribute("update", update);
 		model.addAttribute("user", user);
@@ -85,18 +83,24 @@ public class UserController {
 	}
 	
 	@RequestMapping("/udpate_user")
-	ModelAndView updateUser(@ModelAttribute("user") User user) {
+	ModelAndView updateUser(@ModelAttribute("user") User user, RedirectAttributes redirectAttributes) {
 		User toUpdate = userService.findOne(user.getId());
 		toUpdate.bindFormData(user);
-		userService.saveOrUpdate(toUpdate);
+		try{
+			userService.saveOrUpdate(toUpdate);
+		} catch (DataIntegrityViolationException e) {
+			 redirectAttributes.addFlashAttribute("dataIntegrityError", "Erreur d'enregistrement: email "+user.getEmail()+" déjà existant!");
+		}
 		return new ModelAndView("redirect:/admin/users");
 	}
 	
 	@RequestMapping("/update_pass")
-	ModelAndView changePassword(@ModelAttribute("password") Password password) {
+	ModelAndView changePassword(@ModelAttribute("password") Password password, RedirectAttributes redirectAttributes) {
 		User user = userService.findOne(password.getUserId());
-		if(!passwordEncoder.matches(password.getOldPassword(), user.getPassword()))
-			return new ModelAndView("redirect:/admin/users?changepass=true&errorpass=true&id="+password.getUserId());
+		if(!passwordEncoder.matches(password.getOldPassword(), user.getPassword())) {
+			redirectAttributes.addFlashAttribute("errorChangePassword", "Changement de mot de passe interrompue: ancien mot de passe incorrect");
+			return new ModelAndView("redirect:/admin/users?changepass=true&id="+password.getUserId());
+		}
 		user.setPassword(passwordEncoder.encode(password.getNewPassword()));
 		userService.saveOrUpdate(user);
 		return new ModelAndView("redirect:/admin/users");

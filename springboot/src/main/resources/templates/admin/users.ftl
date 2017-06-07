@@ -31,8 +31,8 @@
 </#if>
 <#if (changepass)>
 <h5>Modification mot de pass de ${password.email?html }</h5>
-<#if (errorpass)>
-	<p style="color:red;">L'ancien mot de passe ne correspond pas</p>
+<#if (errorChangePassword??)>
+	<p style="color:red;">${errorChangePassword}</p>
 </#if>
 	<form method="post" action="<@spring.url relativeUrl="/admin/update_pass"/>">
 		<div class="form-group">

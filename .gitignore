@@ -1,1 +1,4 @@
 /target/
+.project
+springboot/.settings/org.eclipse.jdt.core.prefs
+
